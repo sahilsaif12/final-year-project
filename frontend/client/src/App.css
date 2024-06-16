@@ -1,0 +1,239 @@
+body {
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+  background-color: #d2d6d2;
+}
+
+.app {
+  color: #333333; /* Darker font color */
+  font-family: Arial, sans-serif;
+  /* padding: 20px; */
+  /* overflow-x: hidden;  */
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #fff;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.group-info {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown input {
+  margin-left: 10px;
+  padding: 5px;
+  background-color: #222;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.main-content {
+  padding-bottom: 20px;
+}
+
+.file-upload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.file-upload input {
+  width: 185px;
+}
+
+.regression-outcome {
+  margin-top: 20px;
+}
+.classification-outcome {
+  margin-bottom: 120px;
+}
+
+.classification-method,
+.regression-method {
+  /* margin-bottom: 50px; */
+}
+
+.classification-method h1,
+.regression-method h1 {
+  text-align: center; /* Aligns the text to the center */
+  text-shadow: 4px 4px 4px rgba(100, 75, 75, 0.54); /* Adds a text shadow */
+  color: #333333; /* Sets the text color */
+  font-size: 30px; /* Sets the font size */
+  font-weight: bold; /* Makes the text bold */
+  margin-bottom: 10px; /* Adds space below the headings */
+  margin-top: 100px;
+}
+
+.classification-method p,
+.regression-method p {
+  margin: 5px 0; /* Adds margin above and below the paragraphs */
+  text-align: center; /* Aligns the text to the center */
+  color: #555555; /* Sets the text color */
+  font-size: 16px; /* Sets the font size */
+  line-height: 1.5; /* Sets the line height for better readability */
+  font-weight: bold; /* Makes the text bold */
+}
+
+.font {
+  text-align: center;
+}
+
+.graphs {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+
+.graph {
+  /* width: 80%; */
+  /* height: 500px; */
+  background-color: #10101076;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  /* margin: auto; */
+  margin-top: 10px;
+  /* margin-bottom: 40px;
+  box-shadow: 0px 2px 15px 6px rgba(0, 0, 0, 0.43);
+  -webkit-box-shadow: 0px 2px 15px 6px rgba(0, 0, 0, 0.43);
+  -moz-box-shadow: 0px 2px 15px 6px rgba(0, 0, 0, 0.43); */
+  border-radius: 25px;
+  padding: 15px;
+}
+
+.graphClass {
+  width: 45%;
+  height: 500px;
+  background-color: #10101076;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  /* box-shadow: 0px 2px 15px 6px rgba(0, 0, 0, 0.43);
+  -webkit-box-shadow: 0px 2px 15px 6px rgba(0, 0, 0, 0.43);
+  -moz-box-shadow: 0px 2px 15px 6px rgba(0, 0, 0, 0.43); */
+  border-radius: 25px;
+  padding: 15px;
+}
+
+.metric p span {
+  color: #ff6a00;
+}
+
+.Logo {
+  font-size: 50px;
+  column-rule-color: rgb(228, 210, 210);
+  margin: 70px 30px;
+  /* margin-bottom: -69px; */
+  font-weight: bolder;
+  text-shadow: 4px 4px 4px rgba(100, 75, 75, 0.54);
+}
+.Logo span {
+  color: white;
+}
+
+/*Background*/
+#Square {
+  z-index: -1;
+  width: 130vh;
+  border-radius: 80px;
+  height: 100vh;
+  background-color: #d5ab03b8;
+  transform-origin: left;
+  transform: translate(-10%, -60%) rotate(9deg);
+  justify-content: right;
+  position: fixed;
+  opacity: 1.5;
+  background-attachment: fixed;
+  overflow-x: hidden; /* Already applied */
+}
+
+#Square2 {
+  z-index: -1;
+  width: 130vh;
+  border-radius: 80px;
+  height: 100vh;
+  background-color: #d5ab03b8;
+  transform-origin: left;
+  transform: translate(195%, 45%) rotate(187deg);
+  justify-content: right;
+  position: fixed;
+  opacity: 1.5;
+  background-attachment: fixed;
+  overflow-x: hidden; /* Already applied */
+}
+
+/*button*/
+.button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: #fff;
+  background-color: #333; /* Dark grey color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+  background-color: #323131; /* Lighter grey for hover */
+  transform: translateY(2px);
+}
+
+.button:active {
+  background-color: #222; /* Darker grey for active state */
+  transform: translateY(1px);
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.5); /* Focus ring */
+}
+
+.container {
+  display: flex;
+  gap: 5px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  background-color: #10101024;
+  width: 30%;
+  margin: 30px auto;
+  box-shadow: 0px 2px 15px 6px rgba(0, 0, 0, 0.43);
+  -webkit-box-shadow: 0px 2px 15px 6px rgba(0, 0, 0, 0.43);
+  -moz-box-shadow: 0px 2px 15px 6px rgba(0, 0, 0, 0.43);
+}
+
+.box {
+  background-color: #542e16;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin: auto;
+}
+
+.box span {
+  color: #ff6a00;
+}
+
+/* .flex{
+  display: flex;
+} */
+
+.glass{
+  
+  background-color: #00000042;
+  backdrop-filter: blur(5 px);
+}
