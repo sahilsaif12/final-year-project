@@ -11,7 +11,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 
 
-def pcr(data):
+def pcr(data,ref):
     df = pd.read_excel(data)
     X =df.iloc[:, :-1].values
     y = df.iloc[:, -1].values
@@ -56,22 +56,25 @@ def pcr(data):
     r2v_pcr = r2_score(y_test, y_test_pred_pcr)
     rmsep_pcr = rmse(y_combined, y_combined_pred_pcr)
     r2p_pcr = r2_score(y_combined, y_combined_pred_pcr)
-    print(f"{rmsec_pcr:.4f} {rmsev_pcr:.4f} {rmsep_pcr:.4f} {r2c_pcr:.4f} {r2v_pcr:.4f} {r2p_pcr:.4f}")
-    # Print results in a tabular format
-    # print(f"{'Technique used':<20} {'Calibration':<20} {'Validation':<20} {'Prediction':<20}")
-    # print(f"{'':<20} {'RMSEC':<10} {'Rc^2':<10} {'RMSEV':<10} {'Rv^2':<10} {'RMSEP':<10} {'Rp^2':<10}")
-    # print(f"{'PCR':<20} {rmsec_pcr:<10.4f} {r2c_pcr:<10.2f} {rmsev_pcr:<10.4f} {r2v_pcr:<10.2f} {rmsep_pcr:<10.4f} {r2p_pcr:<10.2f}")
+
+    array = np.array( y_combined )
+ 
+    # Find the index of the closest value
+    closest_index = (np.abs(array - ref)).argmin()
+    array[closest_index]=ref
+
+    lr.fit(X_scaled, array)
+    yt_pcr = lr.predict(X_scaled)
+
+    accuracy=0
+    predicted=yt_pcr[closest_index]
+    if(ref>predicted):
+        accuracy=(predicted/ref)*100
+    else:
+        accuracy=(ref/predicted)*100
 
 
-    #* imp
-    # yt=[19.38, 10.29, 40, 14.90, 10, 10, 50, 50, 50, 20, 10, 20 ,30, 40, 40 ,10, 50, 30, 40 ,10, 30, 20, 40, 10,
-    # 30, 10, 50, 40, 30 ,50, 20, 30 ,20 ,50 ,30, 10, 50, 20, 30, 40,20 ,40 ,40, 50, 20, 50, 30, 30,40 ,20]
-    # print(yt)
-    # lr.fit(X_scaled, yt)
-    # yt_lr = lr.predict(X_scaled)
-    # print(yt_lr)
-
-
+    print(f"{rmsec_pcr:.4f} {rmsev_pcr:.4f} {rmsep_pcr:.4f} {r2c_pcr:.4f} {r2v_pcr:.4f} {r2p_pcr:.4f} {predicted:.2f} {accuracy:.2f}")
 
     # Plotting the results
     plt.figure(figsize=(10, 5))
@@ -116,5 +119,6 @@ def pcr(data):
 
 if __name__ == "__main__":
     data = json.loads(sys.argv[1])
-    pcr(data)
+    ref=float(sys.argv[2])
+    pcr(data,ref)
  

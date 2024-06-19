@@ -10,7 +10,7 @@ from sklearn.cross_decomposition import PLSRegression
 
 
 
-def plsr(data):
+def plsr(data,ref):
     df = pd.read_excel(data)
     X =df.iloc[:, :-1].values
     y = df.iloc[:, -1].values
@@ -46,7 +46,6 @@ def plsr(data):
     rmsep_plsr = rmse(y_combined, y_combined_pred_plsr)
     r2p_plsr = r2_score(y_combined, y_combined_pred_plsr)
 
-    print(f"{rmsec_plsr:.4f} {rmsev_plsr:.4f} {rmsep_plsr:.4f} {r2c_plsr:.4f} {r2v_plsr:.4f} {r2p_plsr:.4f}")
 
 
     #*imp
@@ -57,6 +56,24 @@ def plsr(data):
     #  Make predictions on the training set
     # yt_plsr = pls.predict(X_scaled)
     # print(yt_plsr)
+    array = np.array( y_combined )
+ 
+    # Find the index of the closest value
+    closest_index = (np.abs(array - ref)).argmin()
+    array[closest_index]=ref
+
+    pls.fit(X_scaled, array)
+    yt_plsr = pls.predict(X_scaled)
+
+    accuracy=0
+    predicted=yt_plsr[closest_index]
+    if(ref>predicted):
+        accuracy=(predicted/ref)*100
+    else:
+        accuracy=(ref/predicted)*100
+
+
+    print(f"{rmsec_plsr:.4f} {rmsev_plsr:.4f} {rmsep_plsr:.4f} {r2c_plsr:.4f} {r2v_plsr:.4f} {r2p_plsr:.4f} {predicted:.2f} {accuracy:.2f}")
 
 
     # Plotting the results
@@ -94,5 +111,7 @@ def plsr(data):
 
 if __name__ == "__main__":
     data = json.loads(sys.argv[1])
-    plsr(data)
+    ref=float(sys.argv[2])
+
+    plsr(data,ref)
  

@@ -3,9 +3,9 @@ import { spawn } from "child_process";
 import fs from "fs";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
-const executePythonScript = (filename, data) => {
+const executePythonScript = (filename, data,refValue) => {
     return new Promise((resolve, reject) => {
-        const python = spawn('python', [`src/python/${filename}`, JSON.stringify(data)]);
+        const python = spawn('python', [`src/python/${filename}`, JSON.stringify(data),refValue]);
 
         python.stdout.on('data', (data) => {
             resolve(data.toString());
@@ -21,7 +21,7 @@ const executePythonScript = (filename, data) => {
 
 const dataAnalysis = async (req, res) => {
     const data = req.file?.path
-
+    const {foodItem,refValue} = req.body
     let classification = []
     // try {
     const pcaResult = await executePythonScript('pca.py', data);
@@ -58,7 +58,7 @@ const dataAnalysis = async (req, res) => {
 
 
     let regression=[]
-    let pcrResult = await executePythonScript('pcr.py', data);
+    let pcrResult = await executePythonScript('pcr.py', data,refValue);
     pcrResult =pcrResult.trim().split(" ")
     regression[0] = {}
     regression[0].name = "PCR"
@@ -68,6 +68,8 @@ const dataAnalysis = async (req, res) => {
     regression[0].r2V = pcrResult[4].slice(0,-1)
     regression[0].rmseP = pcrResult[2]
     regression[0].r2P = pcrResult[5].slice(0,-1)
+    let pcrPrediction = pcrResult[6]
+    let pcrAccuracy = pcrResult[7]
     const pcrTrainGraph = await uploadOnCloudinary('pcr_training.png')
     if (!pcrTrainGraph) {
         throw new Error("pcr training graph not found")
@@ -80,8 +82,9 @@ const dataAnalysis = async (req, res) => {
     regression[0].testingGraph = pcrTestGraph.url
 
 
-    let plsrResult = await executePythonScript('plsr.py', data);
+    let plsrResult = await executePythonScript('plsr.py', data,refValue);
     plsrResult =plsrResult.trim().split(" ")
+    // console.log(plsrResult);
     regression[1] = {}
     regression[1].name = "PLSR"
     regression[1].rmseC = plsrResult[0]
@@ -90,6 +93,9 @@ const dataAnalysis = async (req, res) => {
     regression[1].r2V = plsrResult[4].slice(0,-1)
     regression[1].rmseP = plsrResult[2]
     regression[1].r2P = plsrResult[5].slice(0,-1)
+    let plsrPrediction = plsrResult[6]
+    let plsrAccuracy = plsrResult[7]
+
     const plsrTrainGraph = await uploadOnCloudinary('plsr_training.png')
     if (!plsrTrainGraph) {
         throw new Error("plsr training graph not found")
@@ -106,7 +112,7 @@ const dataAnalysis = async (req, res) => {
 
     fs.unlinkSync(req.file.path);
     res.status(200)
-        .json({ classification,regression })
+        .json({ classification,regression,foodItem,refValue,pcrPrediction,pcrAccuracy,plsrPrediction,plsrAccuracy })
     // } catch (error) {
     //     console.log(error);
     // }
